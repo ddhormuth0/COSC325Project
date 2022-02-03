@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player1Movement : MonoBehaviour
 {
 
     public CharacterController2D controller;
@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
     float horizontalMove = 0f;
 
     bool isJumping = false;
-    
+
+    public Animator animate;
 
     // Start is called before the first frame update
     void Start()

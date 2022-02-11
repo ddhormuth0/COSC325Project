@@ -17,22 +17,43 @@ public class Player1Movement : MonoBehaviour
     private float idolTimer;
     private bool isGrounded;
     private Rigidbody2D m_body2d;
+    private float attackTime;
+    private Vector2 direction;
+    private BoxCollider2D character;
+    private int layerMask;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        layerMask = LayerMask.GetMask("Player");
+        attackTime = 0f;
         animate = GetComponent<Animator>();
         isGrounded = controller.GetGrounded();
         m_body2d = GetComponent<Rigidbody2D>();
+        character = GetComponent<BoxCollider2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q) && attackTime <= 0)
+        {
+            Vector3 directionThree = direction + Vector2.up;
+            RaycastHit2D hit = Physics2D.Raycast(character.gameObject.transform.position + directionThree, direction, 1f, layerMask);
+            Debug.DrawRay(character.gameObject.transform.position + directionThree, direction * 5, Color.red, 3f);
+            animate.SetTrigger("Attack" + 1);
+            attackTime = .5f;
+            if(hit.collider != null)
+            {
+                Debug.Log("hitting: " + hit.collider.tag);
+            }
+            
+        }
         //move left
         if (Input.GetKey(KeyCode.A))
         {
+            direction = Vector2.left/2f;
             horizontalMove = -1f * runSpeed;
             animate.SetInteger("AnimState", 1);
             idolTimer = 0.02f;
@@ -40,6 +61,7 @@ public class Player1Movement : MonoBehaviour
         //move right
         else if (Input.GetKey(KeyCode.D))
         {
+            direction = Vector2.right/2;
             horizontalMove = 1f * runSpeed;
             animate.SetInteger("AnimState", 1);
             idolTimer = 0.02f;
@@ -60,6 +82,7 @@ public class Player1Movement : MonoBehaviour
         animate.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
         //for going idol
+        attackTime -= Time.deltaTime;
         idolTimer -= Time.deltaTime;
         if(idolTimer < 0)
         {

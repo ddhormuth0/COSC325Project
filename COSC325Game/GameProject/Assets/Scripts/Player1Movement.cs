@@ -94,7 +94,7 @@ public class Player1Movement : MonoBehaviour
 
         animate.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
-        //for going idol and resetting basick attack
+        //for going idol and resetting basick attack.0
         attackTime -= Time.deltaTime;
         idolTimer -= Time.deltaTime;
         if(idolTimer < 0)

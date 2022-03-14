@@ -8,6 +8,7 @@ public class Player1Movement : MonoBehaviour
     public CharacterController2D controller;
 
     public float runSpeed = 40f;
+    public int basicAttack = 50;
 
     float horizontalMove = 0f;
 
@@ -21,6 +22,7 @@ public class Player1Movement : MonoBehaviour
     private Vector2 direction;
     private BoxCollider2D character;
     private int layerMask;
+
 
 
     // Start is called before the first frame update
@@ -50,18 +52,21 @@ public class Player1Movement : MonoBehaviour
             animate.SetTrigger("Attack" + 1);
             //sets a timer of .5 until the next attack can be made
             attackTime = .5f;
-            if(hit.collider != null)
+            if (hit.collider != null)
             {
                 //debug tool that tells us what we hit with the basic attack
-                Debug.Log("hitting: " + hit.collider.tag);
+                PlayerStats player = hit.transform.GetComponent<PlayerStats>();
+                player.takeDamage(basicAttack);
+                Debug.Log(player.getHealth());
+
             }
-            
+
         }
         //move left
         if (Input.GetKey(KeyCode.A))
         {
             //vector direction that we are moving in
-            direction = Vector2.left/2f;
+            direction = Vector2.left / 2f;
             //sets horizontal movement to go left
             horizontalMove = -1f * runSpeed;
             //sets our animation state to the run animation
@@ -72,14 +77,14 @@ public class Player1Movement : MonoBehaviour
         else if (Input.GetKey(KeyCode.D))
         {
             //vector direction we are moving in
-            direction = Vector2.right/2;
+            direction = Vector2.right / 2;
             //sets horizontal movement to go right * our movement speed
             horizontalMove = 1f * runSpeed;
             //sets our animation state to the run animation
             animate.SetInteger("AnimState", 1);
             idolTimer = 0.02f;
         }
-        
+
         //for jumping
         if (Input.GetKeyDown(KeyCode.W))
         {
@@ -87,7 +92,7 @@ public class Player1Movement : MonoBehaviour
             if (isGrounded)
             {
                 animate.SetTrigger("Jump");
-            }           
+            }
         }
         animate.SetBool("Grounded", isGrounded);
         isGrounded = controller.GetGrounded();
@@ -97,7 +102,7 @@ public class Player1Movement : MonoBehaviour
         //for going idol and resetting basick attack.0
         attackTime -= Time.deltaTime;
         idolTimer -= Time.deltaTime;
-        if(idolTimer < 0)
+        if (idolTimer < 0)
         {
             animate.SetInteger("AnimState", 0);
         }

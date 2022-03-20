@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviour
     int maxLives = 3;
     int currentHealth;
     int lives;
+    bool outOfLives;
 
     public GameObject lifeOne;
     public GameObject lifeTwo;
@@ -18,6 +19,7 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        outOfLives = false;
         //set max lives
         lives = maxLives;
         //set current health and set up health bar
@@ -44,7 +46,7 @@ public class PlayerStats : MonoBehaviour
             }
             if (lives == 0)
             {
-                ;
+                outOfLives = true;
             }
         }
 
@@ -61,5 +63,20 @@ public class PlayerStats : MonoBehaviour
     public int getHealth()
     {
         return currentHealth;
+    }
+
+    public bool getOutOfLives()
+    {
+        return this.outOfLives;
+    }
+
+    public int getNumberOfLives()
+    {
+        return this.lives;
+    }
+
+    public int getMaxHealth()
+    {
+        return this.PlayerMaxHealth;
     }
 }

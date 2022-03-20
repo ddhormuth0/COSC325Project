@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-
-    public float timeValue = 90f;
+    public float maxTimeValue = 90f;
     public Text timeText;
     private bool timesUp;
+    private float timeValue;
 
     private void Start()
     {
+        timeValue = maxTimeValue + 3;
         timesUp = false;
     }
 
@@ -19,20 +20,31 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //checks if timer is more than 0
-        if(timeValue > 0)
+        
+        //pause at beginning
+        if(timeValue <= maxTimeValue)
         {
-            //subtracts the time value from current time passed
-            timeValue -= Time.deltaTime;
-        }
+            //checks if timer is more than 0
+            if (timeValue > 0)
+            {
+                //subtracts the time value from current time passed
+                timeValue -= Time.deltaTime;
+            }
 
+            else
+            {
+                //if time is up set time value to 0 and timeup to true
+                timeValue = 0;
+                timesUp = true;
+            }
+            DisplayTime(timeValue);
+        }
         else
         {
-            //if time is up set time value to 0 and timeup to true
-            timeValue = 0;
-            timesUp = true;
+            DisplayTime(maxTimeValue);
+            timeValue -= Time.deltaTime;
         }
-        DisplayTime(timeValue);
+        
     }
 
     //displays the time value

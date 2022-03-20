@@ -22,9 +22,13 @@ public class PlayerWin : MonoBehaviour
         {
             winText.text = "PLAYER ONE WINS";
         }
-        else
+        else if (whoWon == 2)
         {
             winText.text = "PLAYER TWO WINS";
+        }
+        else
+        {
+            winText.text = "DRAW";
         }
     }
 

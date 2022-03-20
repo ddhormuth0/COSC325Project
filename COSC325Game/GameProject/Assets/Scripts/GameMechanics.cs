@@ -73,9 +73,15 @@ public class GameMechanics : MonoBehaviour
                 if((playerOne.getHealth()/playerOne.getMaxHealth()) > (playerTwo.getHealth() / playerTwo.getMaxHealth()))
                 {
                     return 1;
-                } else
+                } 
+                else if ((playerOne.getHealth() / playerOne.getMaxHealth()) < (playerTwo.getHealth() / playerTwo.getMaxHealth()))
                 {
                     return 2;
+                } 
+                //draw
+                else
+                {
+                    return 0;
                 }
             }
         }

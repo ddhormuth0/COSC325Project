@@ -22,7 +22,6 @@ public class Player2Mage : MonoBehaviour
     private float idolTimer;
     private bool isGrounded;
     private Rigidbody2D m_body2d;
-    private float attackTime;
     private Vector2 direction;
     private BoxCollider2D character;
     private int layerFighter;
@@ -48,7 +47,6 @@ public class Player2Mage : MonoBehaviour
         layerFighter = LayerMask.GetMask("Fighter");
         layerMage = LayerMask.GetMask("Wizard");
         Debug.Log(layerMage);
-        attackTime = 0f;
         animate = GetComponent<Animator>();
         isGrounded = controller.GetGrounded();
         m_body2d = GetComponent<Rigidbody2D>();

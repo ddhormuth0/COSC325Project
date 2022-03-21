@@ -357,7 +357,9 @@ MonoBehaviour:
   lifeOne: {fileID: 822954035}
   lifeTwo: {fileID: 1446697034}
   lifeThree: {fileID: 941285299}
+  position: {fileID: 229384803}
   healthBar: {fileID: 241995857}
+  sprite: {fileID: 0}
 --- !u!4 &229384803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
@@ -953,7 +955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: {fileID: 143403991}
   playerOne: {fileID: 229384798}
-  playerTwo: {fileID: 1158073038}
+  playerTwo: {fileID: 706413378}
 --- !u!4 &430437369
 Transform:
   m_ObjectHideFlags: 0
@@ -1184,7 +1186,9 @@ MonoBehaviour:
   lifeOne: {fileID: 1026512606}
   lifeTwo: {fileID: 942384070}
   lifeThree: {fileID: 1574509784}
+  position: {fileID: 706413373}
   healthBar: {fileID: 1241593975}
+  sprite: {fileID: 0}
 --- !u!1 &822954035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +1875,9 @@ MonoBehaviour:
   lifeOne: {fileID: 1026512606}
   lifeTwo: {fileID: 942384070}
   lifeThree: {fileID: 1574509784}
+  position: {fileID: 1158073043}
   healthBar: {fileID: 1241593975}
+  sprite: {fileID: 0}
 --- !u!4 &1158073043 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}

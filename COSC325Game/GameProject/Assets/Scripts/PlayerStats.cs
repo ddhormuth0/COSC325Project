@@ -10,16 +10,24 @@ public class PlayerStats : MonoBehaviour
     int currentHealth;
     int lives;
     bool outOfLives;
+    bool invincible;
+    private Vector2 start;
+
 
     public GameObject lifeOne;
     public GameObject lifeTwo;
     public GameObject lifeThree;
+    public Transform position;
+
 
     public HealthBar healthBar;
+    public SpriteRenderer sprite;
 
     void Start()
     {
+        start = position.position;
         outOfLives = false;
+        invincible = false;
         //set max lives
         lives = maxLives;
         //set current health and set up health bar
@@ -32,6 +40,7 @@ public class PlayerStats : MonoBehaviour
         //when a player has 0 health delete a life
         if(currentHealth <= 0)
         {
+            resetCharacter();
             lives--;
             currentHealth = PlayerMaxHealth;
             healthBar.SetHealth(PlayerMaxHealth);
@@ -56,8 +65,12 @@ public class PlayerStats : MonoBehaviour
     // if damage is taken subtract from health bar and update it
     public void takeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        if (!invincible)
+        {
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+        }
+        
     }
 
     public int getHealth()
@@ -79,4 +92,20 @@ public class PlayerStats : MonoBehaviour
     {
         return this.PlayerMaxHealth;
     }
+
+    private void resetCharacter()
+    {
+        //move back to start
+        position.position = start;
+        //make invisible
+        invincible = true;
+        float timer = 1f;
+        while(timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+        }
+        invincible = false;
+    }
+
 }

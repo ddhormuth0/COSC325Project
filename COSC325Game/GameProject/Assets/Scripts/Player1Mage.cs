@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player2Movement : MonoBehaviour
+public class Player1Mage : MonoBehaviour
 {
 
     public CharacterController2D controller;
     Rigidbody2D thisPlayer;
 
-    public float runSpeed = 40f;
+    public float runSpeed = 90f;
     public int basicAttack = 50;
     public float maxBlockTime = 3f;
 
@@ -28,13 +28,18 @@ public class Player2Movement : MonoBehaviour
     private int layerFighter;
     private int layerMage;
     private float startTime;
+    private float maxMana = 3f;
+    private float mana;
+    private bool isAttacking;
+    private bool canAttack;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        isAttacking = false;
+        mana = maxMana;
         thisPlayer = this.gameObject.GetComponent<Rigidbody2D>();
         startTime = 3;
         canBlock = true;
@@ -47,6 +52,7 @@ public class Player2Movement : MonoBehaviour
         isGrounded = controller.GetGrounded();
         m_body2d = GetComponent<Rigidbody2D>();
         character = GetComponent<BoxCollider2D>();
+
     }
 
     // Update is called once per frame
@@ -63,18 +69,20 @@ public class Player2Movement : MonoBehaviour
             thisPlayer.WakeUp();
 
             //attacking
-            if (Input.GetKeyDown(KeyCode.O) && attackTime <= 0 && !isBlocking)
+            if (Input.GetKey(KeyCode.Q) && !isBlocking && canAttack)
             {
+                Debug.Log(mana);
                 //convert our 2d movment direction vectro into a vector3
-                Vector3 directionThree = direction + Vector2.up;
+                Vector3 directionThree = direction + Vector2.up/4;
                 //shoots a ray out from the character and detects the item that it hits, only hits players
                 RaycastHit2D hit = Physics2D.Raycast(character.gameObject.transform.position + directionThree, direction, 1f, layerMage | layerFighter);
                 //a debug that shows us the swing radius of the sword attack
                 Debug.DrawRay(character.gameObject.transform.position + directionThree, direction * 5, Color.red, 3f);
                 //sets the animation state to attack
-                animate.SetTrigger("Attack" + 1);
+                animate.SetBool("isAttacking", true);
+                isAttacking = true;
+                mana -= Time.deltaTime;
                 //sets a timer of .5 until the next attack can be made
-                attackTime = .5f;
                 if (hit.collider != null)
                 {
                     //debug tool that tells us what we hit with the basic attack
@@ -82,7 +90,7 @@ public class Player2Movement : MonoBehaviour
                     //if it is a fighter get fighter script
                     if (player.gameObject.layer.Equals(7))
                     {
-                        Player1Movement playerBlock = hit.transform.GetComponent<Player1Movement>();
+                        Player2Movement playerBlock = hit.transform.GetComponent<Player2Movement>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
@@ -93,7 +101,7 @@ public class Player2Movement : MonoBehaviour
                     //it is mage
                     else
                     {
-                        Player1Mage playerBlock = hit.transform.GetComponent<Player1Mage>();
+                        Player2Mage playerBlock = hit.transform.GetComponent<Player2Mage>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
@@ -102,44 +110,65 @@ public class Player2Movement : MonoBehaviour
                         }
                     }
 
+
+                }
+
+                if (mana <= 0)
+                {
+                    canAttack = false;
                 }
 
             }
+            else
+            {
+                //mana must be full
+                if (mana < maxMana)
+                {
+                    canAttack = false;
+                    mana += Time.deltaTime;
+                    Debug.Log(mana);
+                }
+                else
+                {
+                    canAttack = true;
+                }
+                animate.SetBool("isAttacking", false);
+                isAttacking = false;
+            }
             //move left
-            if (Input.GetKey(KeyCode.J) && !isBlocking)
+            if (Input.GetKey(KeyCode.A) && !isBlocking && !isAttacking)
             {
                 //vector direction that we are moving in
                 direction = Vector2.left / 2f;
                 //sets horizontal movement to go left
                 horizontalMove = -1f * runSpeed;
                 //sets our animation state to the run animation
-                animate.SetInteger("AnimState", 1);
+                animate.SetBool("isRunning", true);
                 idolTimer = 0.02f;
             }
             //move right
-            else if (Input.GetKey(KeyCode.L) && !isBlocking)
+            else if (Input.GetKey(KeyCode.D) && !isBlocking && !isAttacking)
             {
                 //vector direction we are moving in
                 direction = Vector2.right / 2;
                 //sets horizontal movement to go right * our movement speed
                 horizontalMove = 1f * runSpeed;
                 //sets our animation state to the run animation
-                animate.SetInteger("AnimState", 1);
+                animate.SetBool("isRunning", true);
                 idolTimer = 0.02f;
             }
             //blocking
-            if (Input.GetKey(KeyCode.K) && canBlock && blockTime > 0f)
+            if (Input.GetKey(KeyCode.S) && canBlock && blockTime > 0f)
             {
                 isBlocking = true;
                 blockTime -= Time.deltaTime;
-                animate.SetTrigger("Block");
-                animate.SetBool("IdleBlock", true);
-               
+                //animate.SetBool("IdleBlock", true);
+
             }
             else
             {
                 isBlocking = false;
-                
+
                 if (blockTime < 3f)
                 {
                     canBlock = false;
@@ -150,29 +179,24 @@ public class Player2Movement : MonoBehaviour
                     canBlock = true;
                 }
 
-                animate.SetBool("IdleBlock", false);
+                //animate.SetBool("IdleBlock", false);
             }
 
             //for jumping
-            if (Input.GetKeyDown(KeyCode.I) && !isBlocking)
+            if (Input.GetKeyDown(KeyCode.W) && !isBlocking)
             {
                 isJumping = true;
-                if (isGrounded)
-                {
-                    animate.SetTrigger("Jump");
-                }
             }
-            animate.SetBool("Grounded", isGrounded);
+
             isGrounded = controller.GetGrounded();
 
-            animate.SetFloat("AirSpeedY", m_body2d.velocity.y);
 
-            //for going idol and resetting basick attack.0
-            attackTime -= Time.deltaTime;
+
+            //for going idol
             idolTimer -= Time.deltaTime;
             if (idolTimer < 0)
             {
-                animate.SetInteger("AnimState", 0);
+                animate.SetBool("isRunning", false);
             }
 
         }

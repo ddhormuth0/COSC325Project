@@ -25,7 +25,8 @@ public class Player1Movement : MonoBehaviour
     private float attackTime;
     private Vector2 direction;
     private BoxCollider2D character;
-    private int layerMask;
+    private int layerFighter;
+    private int layerMage;
     private float startTime;
 
 
@@ -39,7 +40,8 @@ public class Player1Movement : MonoBehaviour
         canBlock = true;
         isBlocking = false;
         blockTime = maxBlockTime;
-        layerMask = LayerMask.GetMask("Player");
+        layerFighter = LayerMask.GetMask("Fighter");
+        layerMage = LayerMask.GetMask("Wizard");
         attackTime = 0f;
         animate = GetComponent<Animator>();
         isGrounded = controller.GetGrounded();
@@ -61,12 +63,12 @@ public class Player1Movement : MonoBehaviour
             thisPlayer.WakeUp();
 
             //attacking
-            if (Input.GetKeyDown(KeyCode.Q) && attackTime <= 0)
+            if (Input.GetKeyDown(KeyCode.Q) && attackTime <= 0 && !isBlocking)
             {
                 //convert our 2d movment direction vectro into a vector3
                 Vector3 directionThree = direction + Vector2.up;
                 //shoots a ray out from the character and detects the item that it hits, only hits players
-                RaycastHit2D hit = Physics2D.Raycast(character.gameObject.transform.position + directionThree, direction, 1f, layerMask);
+                RaycastHit2D hit = Physics2D.Raycast(character.gameObject.transform.position + directionThree, direction, 1f, layerFighter | layerMage);
                 //a debug that shows us the swing radius of the sword attack
                 Debug.DrawRay(character.gameObject.transform.position + directionThree, direction * 5, Color.red, 3f);
                 //sets the animation state to attack
@@ -77,13 +79,27 @@ public class Player1Movement : MonoBehaviour
                 {
                     //debug tool that tells us what we hit with the basic attack
                     PlayerStats player = hit.transform.GetComponent<PlayerStats>();
-                    Player2Movement playerBlock = hit.transform.GetComponent<Player2Movement>();
-
-                    //if player is not blocking
-                    if (!playerBlock.getBlocking())
+                    //if it is a fighter get fighter script
+                    if (player.gameObject.layer.Equals(7))
                     {
-                        player.takeDamage(basicAttack);
-                        Debug.Log(player.getHealth());
+                        Player2Movement playerBlock = hit.transform.GetComponent<Player2Movement>();
+                        //if player is not blocking
+                        if (!playerBlock.getBlocking())
+                        {
+                            player.takeDamage(basicAttack);
+                            Debug.Log(player.getHealth());
+                        }
+                    }
+                    //it is mage
+                    else
+                    {
+                        Player2Mage playerBlock = hit.transform.GetComponent<Player2Mage>();
+                        //if player is not blocking
+                        if (!playerBlock.getBlocking())
+                        {
+                            player.takeDamage(basicAttack);
+                            Debug.Log(player.getHealth());
+                        }
                     }
 
                 }
@@ -118,12 +134,12 @@ public class Player1Movement : MonoBehaviour
                 blockTime -= Time.deltaTime;
                 animate.SetTrigger("Block");
                 animate.SetBool("IdleBlock", true);
-                Debug.Log(blockTime);
+              
             }
             else
             {
                 isBlocking = false;
-                Debug.Log(blockTime);
+             
                 if (blockTime < 3f)
                 {
                     canBlock = false;

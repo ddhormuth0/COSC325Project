@@ -10,14 +10,60 @@ public class GameMechanics : MonoBehaviour
     private bool timesUp;
     private bool outOfLivesPlayerOne;
     private bool outOfLivesPlayerTwo;
+    private int playerOneCharacter;
+    private int playerTwoCharacter;
+    private CharacterSelection characterSelection;
 
     public Timer timer;
-    public PlayerStats playerOne;
-    public PlayerStats playerTwo;
+    public GameObject fighterOne;
+    public GameObject fighterTwo;
+    public GameObject mageOne;
+    public GameObject mageTwo;
+    private PlayerStats playerOne;
+    private PlayerStats playerTwo;
+    public PlayerStats playerOneFighter;
+    public PlayerStats playerTwoFighter;
+    public PlayerStats playerOneMage;
+    public PlayerStats playerTwoMage;
 
     // Start is called before the first frame update
     void Start()
     {
+        characterSelection = GameObject.Find("CharacterSelection").transform.GetComponent<CharacterSelection>();
+        //get which character is selected
+        playerOneCharacter = characterSelection.getPlayerOne();
+        playerTwoCharacter = characterSelection.getPlayerTwo();
+        //if playerOneCharacter equals one then the fighter is selected else the mage is selected
+        //set the correct character to active and select the correct stat script
+        if(playerOneCharacter == 1)
+        {
+            playerOne = playerOneFighter;
+            fighterOne.SetActive(true);
+            mageOne.SetActive(false);
+
+        }
+        else
+        {
+            playerOne = playerOneMage;
+            fighterOne.SetActive(false);
+            mageOne.SetActive(true);
+        }
+
+        //if playerOneCharacter equals one then the fighter is selected
+        if (playerTwoCharacter == 1)
+        {
+            playerTwo = playerTwoFighter;
+            fighterTwo.SetActive(true);
+            mageTwo.SetActive(false);
+
+        }
+        else
+        {
+            playerTwo = playerTwoMage;
+            fighterTwo.SetActive(false);
+            mageTwo.SetActive(true);
+        }
+
         //get lives and time booleans
         timesUp = timer.getTimeUP();
         outOfLivesPlayerOne = playerOne.getOutOfLives();

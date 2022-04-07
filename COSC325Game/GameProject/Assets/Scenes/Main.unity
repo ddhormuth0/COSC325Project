@@ -359,7 +359,6 @@ MonoBehaviour:
   lifeThree: {fileID: 941285299}
   position: {fileID: 229384803}
   healthBar: {fileID: 241995857}
-  sprite: {fileID: 0}
 --- !u!4 &229384803 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}
@@ -1194,7 +1193,6 @@ MonoBehaviour:
   lifeThree: {fileID: 1574509784}
   position: {fileID: 706413373}
   healthBar: {fileID: 1241593975}
-  sprite: {fileID: 0}
 --- !u!1 &743991352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,7 +1234,6 @@ MonoBehaviour:
   lifeThree: {fileID: 941285299}
   position: {fileID: 743991354}
   healthBar: {fileID: 241995857}
-  sprite: {fileID: 0}
 --- !u!4 &743991354
 Transform:
   m_ObjectHideFlags: 0
@@ -2102,7 +2099,6 @@ MonoBehaviour:
   lifeThree: {fileID: 1574509784}
   position: {fileID: 1158073043}
   healthBar: {fileID: 1241593975}
-  sprite: {fileID: 0}
 --- !u!4 &1158073043 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8413529789942519730, guid: a4b4a6d32bcb19248a754d6602ffc7e4, type: 3}

@@ -12,16 +12,16 @@ public class PlayerStats : MonoBehaviour
     bool outOfLives;
     bool invincible;
     private Vector2 start;
-
+    private bool tookDamage;
 
     public GameObject lifeOne;
     public GameObject lifeTwo;
     public GameObject lifeThree;
     public Transform position;
+    
 
 
     public HealthBar healthBar;
-    public SpriteRenderer sprite;
 
     void Start()
     {
@@ -58,8 +58,7 @@ public class PlayerStats : MonoBehaviour
                 outOfLives = true;
             }
         }
-
-        
+        tookDamage = false;
     }
 
     // if damage is taken subtract from health bar and update it
@@ -69,8 +68,8 @@ public class PlayerStats : MonoBehaviour
         {
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
+            tookDamage = true;
         }
-        
     }
 
     public int getHealth()
@@ -106,6 +105,11 @@ public class PlayerStats : MonoBehaviour
 
         }
         invincible = false;
+    }
+
+    public bool getTookDamage()
+    {
+        return tookDamage;
     }
 
 }

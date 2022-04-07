@@ -11,4 +11,12 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
     }
+
+    public void RestartGame()
+    {
+        //takes back to main menu and destroys game manager
+        SceneManager.LoadScene(0);
+        Destroy(GameObject.Find("GameManager"));
+        Destroy(GameObject.Find("CharacterSelection"));
+    }
 }

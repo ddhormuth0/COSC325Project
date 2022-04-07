@@ -1231,9 +1231,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerMaxHealth: 1000
-  lifeOne: {fileID: 1026512606}
-  lifeTwo: {fileID: 942384070}
-  lifeThree: {fileID: 1574509784}
+  lifeOne: {fileID: 822954035}
+  lifeTwo: {fileID: 1446697034}
+  lifeThree: {fileID: 941285299}
   position: {fileID: 743991354}
   healthBar: {fileID: 241995857}
   sprite: {fileID: 0}
@@ -1426,7 +1426,7 @@ GameObject:
   - component: {fileID: 822954038}
   - component: {fileID: 822954037}
   m_Layer: 5
-  m_Name: Heart13
+  m_Name: 1Heart13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1792,7 +1792,7 @@ GameObject:
   - component: {fileID: 941285302}
   - component: {fileID: 941285301}
   m_Layer: 5
-  m_Name: Heart11
+  m_Name: 1Heart11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2433,7 +2433,7 @@ GameObject:
   - component: {fileID: 1446697037}
   - component: {fileID: 1446697036}
   m_Layer: 5
-  m_Name: Heart12
+  m_Name: 1Heart12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -86,18 +86,18 @@ public class Player2Movement : MonoBehaviour
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
+                            player.takeDamage(basicAttack, false, 2);
                             Debug.Log(player.getHealth());
                         }
                     }
                     //it is mage
-                    else
+                    else if (player.gameObject.layer.Equals(6))
                     {
                         Player1Mage playerBlock = hit.transform.GetComponent<Player1Mage>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
+                            player.takeDamage(basicAttack, false, 2);
                             Debug.Log(player.getHealth());
                         }
                     }

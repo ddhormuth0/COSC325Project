@@ -11,9 +11,11 @@ public class Player2Mage : MonoBehaviour
     public float runSpeed = 90f;
     public int basicAttack = 50;
     public float maxBlockTime = 3f;
+    public GameObject circle;
 
     float horizontalMove = 0f;
 
+    private bool isHitting;
     private bool canBlock;
     private bool isBlocking;
     private float blockTime;
@@ -31,6 +33,7 @@ public class Player2Mage : MonoBehaviour
     private float mana;
     private bool isAttacking;
     private bool canAttack;
+    public ManaBar manaBar;
 
 
 
@@ -46,12 +49,13 @@ public class Player2Mage : MonoBehaviour
         blockTime = maxBlockTime;
         layerFighter = LayerMask.GetMask("Fighter");
         layerMage = LayerMask.GetMask("Wizard");
-        Debug.Log(layerMage);
         animate = GetComponent<Animator>();
         isGrounded = controller.GetGrounded();
         m_body2d = GetComponent<Rigidbody2D>();
         character = GetComponent<BoxCollider2D>();
-        
+        isHitting = false;
+        circle.SetActive(false);
+        manaBar.SetMaxMana(maxMana);
     }
 
     // Update is called once per frame
@@ -65,14 +69,15 @@ public class Player2Mage : MonoBehaviour
         }
         else
         {
+            //stops the player from floating
             thisPlayer.WakeUp();
 
             //attacking
             if (Input.GetKey(KeyCode.O) && !isBlocking && canAttack)
             {
-                Debug.Log(mana);
+
                 //convert our 2d movment direction vectro into a vector3
-                Vector3 directionThree = direction + Vector2.up/4;
+                Vector3 directionThree = direction + Vector2.up / 4;
                 //shoots a ray out from the character and detects the item that it hits, only hits players
                 RaycastHit2D hit = Physics2D.Raycast(character.gameObject.transform.position + directionThree, direction, 1f, layerMage | layerFighter);
                 //a debug that shows us the swing radius of the sword attack
@@ -81,52 +86,70 @@ public class Player2Mage : MonoBehaviour
                 animate.SetBool("isAttacking", true);
                 isAttacking = true;
                 mana -= Time.deltaTime;
+                manaBar.SetMana(mana);
                 //sets a timer of .5 until the next attack can be made
                 if (hit.collider != null)
                 {
                     //debug tool that tells us what we hit with the basic attack
                     PlayerStats player = hit.transform.GetComponent<PlayerStats>();
                     //if it is a fighter get fighter script
-                    Debug.Log(player.gameObject.layer);
                     if (player.gameObject.layer.Equals(7))
                     {
                         Player1Movement playerBlock = hit.transform.GetComponent<Player1Movement>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
+                            isHitting = true;
+                            player.takeDamage(basicAttack, true, 2);
                             Debug.Log(player.getHealth());
                         }
-                    } 
+                        //blocking
+                        else
+                        {
+                            isHitting = false;
+                        }
+                    }
                     //it is mage
-                    else
+                    else if (player.gameObject.layer.Equals(6))
                     {
                         Player1Mage playerBlock = hit.transform.GetComponent<Player1Mage>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
-                            Debug.Log(player.getHealth());
+                            isHitting = true;
+                            player.takeDamage(basicAttack, true, 2);
+
+                        }
+                        //blocking
+                        else
+                        {
+                            isHitting = false;
                         }
                     }
-                    
 
-                    
 
                 }
+                else
+                {
+                    isHitting = false;
+                }
 
+
+                //if out of mana you cant attack
                 if (mana <= 0)
                 {
                     canAttack = false;
                 }
 
-            } else
+            }
+            else
             {
                 //mana must be full
-                if(mana < maxMana)
+                if (mana < maxMana)
                 {
                     canAttack = false;
                     mana += Time.deltaTime;
+                    manaBar.SetMana(mana);
                     Debug.Log(mana);
                 }
                 else
@@ -135,6 +158,7 @@ public class Player2Mage : MonoBehaviour
                 }
                 animate.SetBool("isAttacking", false);
                 isAttacking = false;
+                isHitting = false;
             }
             //move left
             if (Input.GetKey(KeyCode.J) && !isBlocking && !isAttacking)
@@ -164,12 +188,13 @@ public class Player2Mage : MonoBehaviour
                 isBlocking = true;
                 blockTime -= Time.deltaTime;
                 //animate.SetBool("IdleBlock", true);
-                
+                circle.SetActive(true);
             }
             else
             {
+                circle.SetActive(false);
                 isBlocking = false;
-                
+
                 if (blockTime < 3f)
                 {
                     canBlock = false;
@@ -216,5 +241,10 @@ public class Player2Mage : MonoBehaviour
     public bool getBlocking()
     {
         return isBlocking;
+    }
+
+    public bool getHitting()
+    {
+        return isHitting;
     }
 }

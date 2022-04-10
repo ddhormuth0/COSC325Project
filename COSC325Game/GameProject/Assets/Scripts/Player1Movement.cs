@@ -47,6 +47,7 @@ public class Player1Movement : MonoBehaviour
         isGrounded = controller.GetGrounded();
         m_body2d = GetComponent<Rigidbody2D>();
         character = GetComponent<BoxCollider2D>();
+
     }
 
     // Update is called once per frame
@@ -86,18 +87,18 @@ public class Player1Movement : MonoBehaviour
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
+                            player.takeDamage(basicAttack, false, 1);
                             Debug.Log(player.getHealth());
                         }
                     }
                     //it is mage
-                    else
+                    else if (player.gameObject.layer.Equals(6))
                     {
                         Player2Mage playerBlock = hit.transform.GetComponent<Player2Mage>();
                         //if player is not blocking
                         if (!playerBlock.getBlocking())
                         {
-                            player.takeDamage(basicAttack);
+                            player.takeDamage(basicAttack, false, 1);
                             Debug.Log(player.getHealth());
                         }
                     }

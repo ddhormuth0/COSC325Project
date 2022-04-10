@@ -13,11 +13,15 @@ public class PlayerStats : MonoBehaviour
     bool invincible;
     private Vector2 start;
     private bool tookDamage;
+    public Player1Mage mage1;
+    public Player2Mage mage2;
 
     public GameObject lifeOne;
     public GameObject lifeTwo;
     public GameObject lifeThree;
     public Transform position;
+    public SpriteRenderer sprite;
+    
     
 
 
@@ -25,6 +29,7 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+        sprite = this.gameObject.GetComponent<SpriteRenderer>();
         start = position.position;
         outOfLives = false;
         invincible = false;
@@ -62,15 +67,56 @@ public class PlayerStats : MonoBehaviour
     }
 
     // if damage is taken subtract from health bar and update it
-    public void takeDamage(int damage)
+    // if its a mage then the flash red will continue until the player stops attacking
+    public void takeDamage(int damage, bool isMage, int playerAttacking)
     {
         if (!invincible)
         {
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
             tookDamage = true;
+            //for mage one
+            if(isMage && playerAttacking == 1)
+            {
+                StartCoroutine(MageOneAttackFlashRed());
+            }
+            //for mage 2 
+            else if (isMage && playerAttacking == 2)
+            {
+                
+                StartCoroutine(MageTwoAttackFlashRed());
+            }
+            //for fighter
+            else
+            {
+                StartCoroutine(FlashRed());
+            }
+            
         }
     }
+
+    public IEnumerator FlashRed()
+    {
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(.1f);
+        sprite.color = Color.white;
+    }
+
+    public IEnumerator MageOneAttackFlashRed()
+    {
+        sprite.color = Color.red;
+        yield return new WaitUntil(() => !(Input.GetKey(KeyCode.Q) && mage1.getHitting()));
+        sprite.color = Color.white;
+    }
+
+    public IEnumerator MageTwoAttackFlashRed()
+    {
+        sprite.color = Color.red;
+        yield return new WaitUntil(() => !(Input.GetKey(KeyCode.O) && mage2.getHitting()));
+        sprite.color = Color.white;
+        
+    }
+
 
     public int getHealth()
     {

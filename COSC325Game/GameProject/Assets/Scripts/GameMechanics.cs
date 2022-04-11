@@ -68,6 +68,7 @@ public class GameMechanics : MonoBehaviour
         timesUp = timer.getTimeUP();
         outOfLivesPlayerOne = playerOne.getOutOfLives();
         outOfLivesPlayerTwo = playerTwo.getOutOfLives();
+        Destroy(GameObject.Find("CharacterSelection"));
     }
 
     // Update is called once per frame

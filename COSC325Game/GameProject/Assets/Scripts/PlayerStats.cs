@@ -144,13 +144,38 @@ public class PlayerStats : MonoBehaviour
         position.position = start;
         //make invisible
         invincible = true;
-        float timer = 1f;
-        while(timer > 0)
-        {
-            timer -= Time.deltaTime;
 
-        }
+        StartCoroutine(characterInvisible());
+
         invincible = false;
+    }
+
+    //flash the character in and out
+    public IEnumerator characterInvisible()
+    {
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, .2f);
+        yield return new WaitForSeconds(.125f);
+        sprite.color = new Color(1, 1, 1, 1f);
+
     }
 
     public bool getTookDamage()

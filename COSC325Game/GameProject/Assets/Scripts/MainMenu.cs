@@ -17,6 +17,5 @@ public class MainMenu : MonoBehaviour
         //takes back to main menu and destroys game manager
         SceneManager.LoadScene(0);
         Destroy(GameObject.Find("GameManager"));
-        Destroy(GameObject.Find("CharacterSelection"));
     }
 }

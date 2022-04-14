@@ -147,7 +147,6 @@ public class PlayerStats : MonoBehaviour
 
         StartCoroutine(characterInvisible());
 
-        invincible = false;
     }
 
     //flash the character in and out
@@ -175,7 +174,7 @@ public class PlayerStats : MonoBehaviour
         sprite.color = new Color(1, 1, 1, .2f);
         yield return new WaitForSeconds(.125f);
         sprite.color = new Color(1, 1, 1, 1f);
-
+        invincible = false;
     }
 
     public bool getTookDamage()

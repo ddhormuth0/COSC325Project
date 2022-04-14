@@ -80,7 +80,7 @@ public class GameMechanics : MonoBehaviour
         outOfLivesPlayerTwo = playerTwo.getOutOfLives();
 
         //if out of lives or time is over display end screen
-        if ((timesUp || outOfLivesPlayerOne || outOfLivesPlayerTwo) && SceneManager.GetActiveScene().buildIndex == 1)
+        if ((timesUp || outOfLivesPlayerOne || outOfLivesPlayerTwo) && SceneManager.GetActiveScene().buildIndex == 2)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

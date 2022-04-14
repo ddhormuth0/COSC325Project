@@ -15,7 +15,7 @@ public class MainMenu : MonoBehaviour
     public void RestartGame()
     {
         //takes back to main menu and destroys game manager
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
         Destroy(GameObject.Find("GameManager"));
     }
 }

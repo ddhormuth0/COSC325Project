@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player1Mage : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Player1Mage : MonoBehaviour
     private bool isAttacking;
     private bool canAttack;
     public ManaBar manaBar;
+    public Image shield;
 
 
 
@@ -199,11 +201,13 @@ public class Player1Mage : MonoBehaviour
                 if (blockTime < 3f)
                 {
                     canBlock = false;
+                    shield.color = new Color (1, 1, 1, .2f);
                     blockTime += Time.deltaTime;
                 }
                 else
                 {
                     canBlock = true;
+                    shield.color = new Color(1, 1, 1, 1f);
                 }
 
                 //animate.SetBool("IdleBlock", false);

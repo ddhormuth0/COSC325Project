@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player1Movement : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class Player1Movement : MonoBehaviour
     private int layerFighter;
     private int layerMage;
     private float startTime;
+    public Image shield;
 
 
 
@@ -144,11 +146,13 @@ public class Player1Movement : MonoBehaviour
                 if (blockTime < 3f)
                 {
                     canBlock = false;
+                    shield.color = new Color (1, 1, 1, .2f);
                     blockTime += Time.deltaTime;
                 }
                 else
                 {
                     canBlock = true;
+                    shield.color = new Color(1, 1, 1, 1f);
                 }
 
                 animate.SetBool("IdleBlock", false);

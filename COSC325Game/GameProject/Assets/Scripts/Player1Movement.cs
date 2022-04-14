@@ -142,8 +142,8 @@ public class Player1Movement : MonoBehaviour
             else
             {
                 isBlocking = false;
-             
-                if (blockTime < 3f)
+
+                if (blockTime < maxBlockTime) 
                 {
                     canBlock = false;
                     shield.color = new Color (1, 1, 1, .2f);
